@@ -178,14 +178,15 @@ class Varien_Autoload
      * Get full path
      *
      * @param $className
-     * @return mixed
+     * @return string|bool
      */
     static public function getFullPath($className) {
         if (!isset(self::$_cache[$className])) {
             $fullPath = self::searchFullPath(self::getFileFromClassName($className));
             if ($fullPath) {
-                self::$_cache[$className] = str_replace(self::$_BP . DIRECTORY_SEPARATOR, '', $fullPath);
+                $fullPath = str_replace(self::$_BP . DIRECTORY_SEPARATOR, '', $fullPath);
             }
+            self::$_cache[$className] = $fullPath;
             self::$_numberOfFilesAddedToCache++;
         }
         return self::$_cache[$className];
