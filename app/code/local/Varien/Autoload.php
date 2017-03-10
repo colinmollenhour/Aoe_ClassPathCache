@@ -165,6 +165,9 @@ class Varien_Autoload
         }
 
         if (file_exists(self::getRevalidateFlagPath()) && unlink(self::getRevalidateFlagPath())) {
+            if (function_exists('opcache_reset') && PHP_SAPI != 'cli') {
+                opcache_reset();
+            }
             // When this is called there might not be an autoloader in place. So we need to manually load all the needed classes:
             require_once implode(DIRECTORY_SEPARATOR, array(self::$_BP, 'app', 'code', 'core', 'Mage', 'Core', 'Helper', 'Abstract.php'));
             require_once implode(DIRECTORY_SEPARATOR, array(self::$_BP, 'app', 'code', 'local', 'Aoe', 'ClassPathCache', 'Helper', 'Data.php'));
